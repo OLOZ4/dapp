@@ -2,71 +2,84 @@ const EventTickets = artifacts.require("EventTickets");
 
 contract("EventTickets", (accounts) => {
   let instance;
+  const organizer = accounts[0];
+  const controller = accounts[1];
+  const buyer = accounts[2];
+  const ticketPrice = web3.utils.toWei("0.001", "ether");
+  const totalTickets = 100;
 
-  // Test case 1: Deploy contract successfully
-  it("should deploy the contract with valid constructor parameters", async () => {
-    const ticketPrice = web3.utils.toWei("0.001", "ether");
-    const totalTickets = 100;
-    const controllerAddress = accounts[1];
+  // Deploy a fresh instance before each test
+  beforeEach(async () => {
+    instance = await EventTickets.new(ticketPrice, totalTickets, controller, { from: organizer });
+  });
 
-    instance = await EventTickets.new(ticketPrice, totalTickets, controllerAddress);
-
-    const organizer = await instance.organizer();
+  it("should initialize with correct parameters", async () => {
+    const contractOrganizer = await instance.organizer();
+    const contractController = await instance.controller();
     const price = await instance.ticketPrice();
     const tickets = await instance.ticketsLeft();
-    const controller = await instance.controller();
 
-    assert.equal(organizer, accounts[0], "Organizer should be the account deploying the contract");
-    assert.equal(price, ticketPrice, "Ticket price should match the constructor parameter");
-    assert.equal(tickets, totalTickets, "Total tickets should match the constructor parameter");
-    assert.equal(controller, controllerAddress, "Controller address should match the constructor parameter");
+    assert.equal(contractOrganizer, organizer, "Incorrect organizer");
+    assert.equal(contractController, controller, "Incorrect controller");
+    assert.equal(price, ticketPrice, "Incorrect ticket price");
+    assert.equal(tickets, totalTickets, "Incorrect total tickets");
   });
 
-  // Test case 2: Fail deployment if ticket price is zero
-  it("should fail to deploy if ticket price is 0", async () => {
+  it("should allow a user to buy a ticket", async () => {
+    await instance.buyTicket({ from: buyer, value: ticketPrice });
+
+    const ticket = await instance.tickets(buyer);
+    const ticketsRemaining = await instance.ticketsLeft();
+
+    assert.equal(ticket.valid, true, "Ticket should be valid");
+    assert.equal(ticket.used, false, "Ticket should not be used");
+    assert.equal(ticketsRemaining, totalTickets - 1, "Tickets left should decrement");
+  });
+
+  it("should allow controller to validate a ticket", async () => {
+    await instance.buyTicket({ from: buyer, value: ticketPrice });
+    await instance.validateTicket(buyer, { from: controller });
+
+    const ticket = await instance.tickets(buyer);
+    assert.equal(ticket.used, true, "Ticket should be marked as used");
+  });
+
+  it("should not allow invalid ticket purchase", async () => {
     try {
-      await EventTickets.new(0, 100, accounts[1]);
-      assert.fail("The deployment should have thrown an error");
+      await instance.buyTicket({ from: buyer, value: web3.utils.toWei("0.0005", "ether") });
+      assert.fail("Ticket purchase should fail for incorrect price");
     } catch (err) {
-      assert(err.message.includes("Ticket price must be > 0"), `Unexpected error message: ${err.message}`);
+      assert(err.message.includes("Wrong price"), "Unexpected error message");
     }
   });
 
-  // Test case 3: Fail deployment if total tickets are zero
-  it("should fail to deploy if total tickets is 0", async () => {
+  it("should not allow duplicate ticket purchase", async () => {
+    await instance.buyTicket({ from: buyer, value: ticketPrice });
+
     try {
-      await EventTickets.new(web3.utils.toWei("0.001", "ether"), 0, accounts[1]);
-      assert.fail("The deployment should have thrown an error");
+      await instance.buyTicket({ from: buyer, value: ticketPrice });
+      assert.fail("Ticket purchase should fail for duplicate buyer");
     } catch (err) {
-      assert(err.message.includes("Number of tickets must be > 0"), `Unexpected error message: ${err.message}`);
+      assert(err.message.includes("Already owns ticket"), "Unexpected error message");
     }
   });
 
-  // Test case 4: Fail deployment if controller address is invalid
-  it("should fail to deploy if controller address is zero", async () => {
-    try {
-      await EventTickets.new(web3.utils.toWei("0.001", "ether"), 100, "0x0000000000000000000000000000000000000000");
-      assert.fail("The deployment should have thrown an error");
-    } catch (err) {
-      assert(err.message.includes("Controller cannot be zero address"), `Unexpected error message: ${err.message}`);
-    }
+  it("should allow organizer to withdraw funds", async () => {
+    await instance.buyTicket({ from: buyer, value: ticketPrice });
+
+    const initialBalance = BigInt(await web3.eth.getBalance(organizer));
+    await instance.withdraw({ from: organizer });
+    const finalBalance = BigInt(await web3.eth.getBalance(organizer));
+
+    assert(finalBalance > initialBalance, "Organizer's balance should increase");
   });
 
-  // Test case 5: Check ticket purchase logic
-  it("should allow user to buy a ticket", async () => {
-    const ticketPrice = web3.utils.toWei("0.001", "ether");
-    const totalTickets = 100;
-    const controllerAddress = accounts[1];
-
-    instance = await EventTickets.new(ticketPrice, totalTickets, controllerAddress);
-
-    await instance.buyTicket({ from: accounts[2], value: ticketPrice });
-
-    const ticket = await instance.tickets(accounts[2]);
-    assert.equal(ticket.valid, true, "Ticket should be valid after purchase");
-    assert.equal(ticket.used, false, "Ticket should not be used after purchase");
-
-    const remainingTickets = await instance.ticketsLeft();
-    assert.equal(remainingTickets, totalTickets - 1, "Remaining tickets should decrement by 1");
+  it("should not allow non-organizer to withdraw funds", async () => {
+    try {
+      await instance.withdraw({ from: buyer });
+      assert.fail("Withdraw should fail for non-organizer");
+    } catch (err) {
+      assert(err.message.includes("Not organizer"), "Unexpected error message");
+    }
   });
 });

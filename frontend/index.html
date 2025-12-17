@@ -1,15 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Event Tickets DApp</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <button onclick="connect()">Connect</button>
-  <button onclick="buy()">Buy Ticket</button>
-  <button onclick="validate()">Validate Ticket</button>
+  <div class="container">
+    <h1>🎟️ Event Tickets DApp</h1>
+    <p>Buy tickets, validate them, or withdraw funds!</p>
 
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6/dist/ethers.umd.min.js"></script>
+    <div class="actions">
+      <button id="connectWallet">Connect Wallet</button>
+      <hr>
+      <div id="ticketsSection">
+        <h2>Buy Tickets</h2>
+        <button id="buyTicket">Buy Ticket</button>
+        <p><b>Price per ticket:</b> <span id="ticketPrice">Loading...</span> ETH</p>
+        <p><b>Tickets remaining:</b> <span id="ticketsLeft">Loading...</span></p>
+      </div>
+      <hr>
+      <div id="validateSection">
+        <h2>Validate Tickets</h2>
+        <input id="ticketHolder" type="text" placeholder="Ticket holder address">
+        <button id="validateTicket">Validate Ticket</button>
+      </div>
+      <hr>
+      <div id="withdrawSection">
+        <h2>Withdraw Funds</h2>
+        <button id="withdrawFunds">Withdraw</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.5/web3.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
