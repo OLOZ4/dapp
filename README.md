@@ -206,4 +206,70 @@ Vykdymas:
 truffle test
 ```
 
+# Projekto eiga
+## Sukurtas veikiantis projektas REMIX IDE
+## Padarytas testavimas lokliame tinkle naudojant Ganache per MetaMask
+![img](/img/12.png)
+## Padarytas testavimas testiniame tinkle naudojant Sepolia per MetaMask
+Pirmiausia reikėjo gauti Sepolia ETH, tam naudojome Google
 
+![img](/img/2.png)
+
+Patikrinam, ar remix mato Sepolia ETH
+
+![img](/img/1.png)
+
+Sukuriame kontraktą, nuskaitomi eth:
+
+![img](/img/4.png)
+
+![img](/img/3.png)
+
+ETHscanneryje galima pamatyti įvykusią transakciją:
+
+![img](/img/6.png)
+
+[Nuoroda į puslapį](https://sepolia.etherscan.io/tx/0x134c3f101348968455742c7c377bc34a3eec105f4e3c4ab7314fbff5e1fbee79)
+
+Perkame bilietą:
+
+Gauname klaidą:
+
+![img](/img/7.png)
+
+Tačiau viskas gerai, gauname užklausą į metamask:
+
+![img](/img/8.png)
+
+Transakcija įvyksta sėkmingai, bilietas nuperkamas:
+
+![img](/img/10.png)
+
+![img](/img/9.png)
+
+Matome transakciją tinkle:
+
+![img](/img/11.png)
+
+[Nuoroda į puslapį](https://sepolia.etherscan.io/tx/0xdc11fde2aec9316e41b361fdf361254fa57f3bb630f9c6e1a883fe6c6b18a605)
+
+
+## Deployinimas per truffle:
+![img](/img/13.png)
+
+Atliekame testavimą:
+
+![img](/img/15.png)
+
+Deployname:
+
+![img](/img/16.png)
+
+
+## Web UI
+
+Taip atrodo mūsų vertotojo sąsaja:
+
+![img](/img/17.png)
+
+![img](/img/18.png)
