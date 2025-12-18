@@ -13,7 +13,7 @@ module.exports = async function (deployer, network, accounts) {
   console.log("Controller Address:", controllerAddress);
 
 
-  await deployer.deploy(EventTickets, ticketPrice, totalTickets, controllerAddress);
+  await deployer.deploy(EventTickets, ticketPrice, totalTickets, controllerAddress),{gas: 5000000};
   const deployedContract = await EventTickets.deployed();
 
   console.log("Deployed EventTickets at address:", deployedContract.address);

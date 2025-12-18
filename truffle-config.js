@@ -3,8 +3,8 @@ module.exports = {
     development: {
       host: "127.0.0.1", // Ganache host
       port: 8545,        // Ganache port
-      network_id: "*",   // Match any network id
-      gas: 8000000,      // Increase the gas limit
+      network_id: 5777,   // Match any network id
+      gas: 6721975,      // Increase the gas limit
       gasPrice: 20000000000, // 20 Gwei
     },
   },
