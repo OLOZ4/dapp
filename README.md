@@ -1,4 +1,4 @@
-# Event Tickets DApp (2 žmonių versija)
+# Event Tickets DApp
 
 Decentralizuota bilietų pardavimo sistema Ethereum tinkle. Modelyje dalyvauja trys šalys:
 - Organizatorius (sutarties savininkas, gauna lėšas)
