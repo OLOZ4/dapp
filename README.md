@@ -254,7 +254,7 @@ Matome transakciją tinkle:
 [Nuoroda į puslapį](https://sepolia.etherscan.io/tx/0xdc11fde2aec9316e41b361fdf361254fa57f3bb630f9c6e1a883fe6c6b18a605)
 
 
-## Deployinimas per truffle:
+## Deployinimas per Truffle:
 ![img](/img/13.png)
 
 Atliekame testavimą:
@@ -273,3 +273,19 @@ Taip atrodo mūsų vertotojo sąsaja:
 ![img](/img/17.png)
 
 ![img](/img/18.png)
+
+
+# Išvados
+## Pavyko
+✔️ Sukurti sutarties principu veikinačią aplikaciją su verslo logika
+✔️ Ištestuoti lokialiame tinkle
+✔️ Ištestuoti testiniame tinkle
+✔️ Suprasti kaip veikia kontraktai
+✔️ Suprasti kaip saveikauja MetaMask su kontraktais
+✔️ Sukurti Truffle projektą bei jį kompiliuoti
+✔️ Sukurti vartotojo sąsają 
+
+## Nepavyko
+❌ Sukurti "pilnai" veikiančio projekto
+
+
