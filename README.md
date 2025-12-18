@@ -277,12 +277,12 @@ Taip atrodo mūsų vertotojo sąsaja:
 
 # Išvados
 ## Pavyko
-✔️ Sukurti sutarties principu veikinačią aplikaciją su verslo logika
-✔️ Ištestuoti lokialiame tinkle
-✔️ Ištestuoti testiniame tinkle
-✔️ Suprasti kaip veikia kontraktai
-✔️ Suprasti kaip saveikauja MetaMask su kontraktais
-✔️ Sukurti Truffle projektą bei jį kompiliuoti
+✔️ Sukurti sutarties principu veikinačią aplikaciją su verslo logika\
+✔️ Ištestuoti lokialiame tinkle\
+✔️ Ištestuoti testiniame tinkle\
+✔️ Suprasti kaip veikia kontraktai\
+✔️ Suprasti kaip saveikauja MetaMask su kontraktais\
+✔️ Sukurti Truffle projektą bei jį kompiliuoti\
 ✔️ Sukurti vartotojo sąsają 
 
 ## Nepavyko
